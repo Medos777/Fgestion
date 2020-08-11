@@ -21,6 +21,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { RouterModule, Routes } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 
@@ -41,8 +42,7 @@ const appRoutes : Routes = [
     AddScategorieComponent,
     ListScategorieComponent,
     AddArticleComponent,
-    ListArticleComponent?
-    MatIconModule?
+    ListArticleComponent
     
   ],
   imports: [
@@ -57,7 +57,6 @@ const appRoutes : Routes = [
     
     
     MatSliderModule,
-    FlexLayoutModule,
     MatToolbarModule,
     MatIconModule,
     NgMatSearchBarModule,
