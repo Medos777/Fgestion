@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "Fgestion"
+    }
+  },
+  "defaultProject": "Fgestion",
+  "cli": {
+    "analytics": "c57462f7-ee1c-4fbc-a174-6a88318bf5e5"
+  }
 }
