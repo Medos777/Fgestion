@@ -1,28 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Scategorie} from '../model/scategorie'
+import { User} from '../model/user';
+import { DatePipe } from '@angular/common';
+
 import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule,Validators }
 from '@angular/forms';
 @Injectable({
   providedIn: 'root'
 })
-export class ScategorieService {
-  private baseUrl = '/api/scategories';
-  private baseUrl1 = '/api/scategories/5';
+export class UserService {
+  
+  
+  
+  private baseUrl = '/api/users';
+  private baseUrl1 = '/api/users/5';
+  islogin = false;
+  admin = false;
+  suser = false;
   choixmenu : string  = 'A';
-  listData : Scategorie[];
-  
+  listData : User[];
   public dataForm:  FormGroup; 
-  constructor(private http: HttpClient) { }
-
-
-  
-  listScateg(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl1}/${id}`);
-  }
+  constructor(private http: HttpClient,private datePipe: DatePipe) { }
+  login(login: String): Observable<Object> {
+    
+     return this.http.get(`${this.baseUrl1}/${login}`);
+   }  
  
-  getData(id: string): Observable<Object> {
+  getData(id: number): Observable<Object> {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
  
@@ -34,9 +39,6 @@ export class ScategorieService {
     return this.http.put(`${this.baseUrl}/${id}`, value);
   }
  
-  updateRang(id: number, value: any): Observable<Object> {
-      return this.http.patch(`${this.baseUrl1}/${id}`, value);
-  }
   deleteData(id: number): Observable<any> {
    
     return this.http.delete(`${this.baseUrl}/${id}`, { responseType: 'text' });
@@ -45,5 +47,8 @@ export class ScategorieService {
   getAll(): Observable<any> {
    
     return this.http.get(`${this.baseUrl}`);
+  }
+  transformDate(date){
+    return this.datePipe.transform(date, 'yyyy-MM-dd');
   }
 }

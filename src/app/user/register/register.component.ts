@@ -1,38 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { ClientService} from '../../service/client.service'
+import { UserService} from '../../service/user.service'
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule,Validators }
 from '@angular/forms';
 import { Router } from '@angular/router';
-import { Client} from '../../model/Client';
-
+import { User} from '../../model/user';
 @Component({
-  selector: 'app-add-client',
-  templateUrl: './add-client.component.html',
-  styleUrls: ['./add-client.component.scss']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss']
 })
-export class AddClientComponent implements OnInit {
-  constructor(public crudApi: ClientService ,public fb: FormBuilder,public toastr: ToastrService,
+export class RegisterComponent implements OnInit {
+  constructor(public crudApi: UserService ,public fb: FormBuilder,public toastr: ToastrService,
     private router : Router) { }
 
   ngOnInit() {
   
-    if (this.crudApi.choixmenu == "A")
-    {this.infoForm()};
+   
+    this.infoForm();
    }
+
+  
   infoForm() {
     this.crudApi.dataForm = this.fb.group({
         id: null,
-        code: ['', [Validators.required]],
-        libelle: ['', [Validators.required]],
-        adresse: ['', [Validators.required, Validators.minLength(5)]],
-        tel: ['', [Validators.required, Validators.minLength(8)]],
-        email: ['', [Validators.required, Validators.minLength(10)]],
-        fax: ['', [Validators.required, Validators.minLength(8)]],
+        nom: ['', [Validators.required, Validators.minLength(5)]],
+        role: ['', [Validators.required, Validators.minLength(8)]],
         login: ['', [Validators.required, Validators.minLength(8)]],
         pwd: ['', [Validators.required, Validators.minLength(8)]],
-       
-    
+        pwdd: ['', [Validators.required, Validators.minLength(8)]],
         });
     }
    
@@ -42,16 +38,22 @@ export class AddClientComponent implements OnInit {
       this.crudApi.dataForm.reset();
   }
   onSubmit() {
-    if (this.crudApi.choixmenu == "A")
+   
+    if (this.crudApi.dataForm.value.pwd == this.crudApi.dataForm.value.pwdd)
     {
-      this.addData();
+      if (this.crudApi.choixmenu == "A")
+      {
+        this.addData();
+      }
+      else
+      {
+       this.updateData()
+      }
     }
     else
     {
-      
-     this.updateData()
+      this.toastr.warning( 'Vérifiet votre de passe ...');  
     }
-   
 }
   
    
@@ -60,7 +62,7 @@ addData() {
   this.crudApi.createData(this.crudApi.dataForm.value).
   subscribe( data => {
     this.toastr.success( 'Validation Faite avec Success'); 
-    this.router.navigate(['/clients']);
+    this.router.navigate(['/users']);
   });
 }
   updateData()
@@ -70,8 +72,12 @@ addData() {
     subscribe( data => {
       this.toastr.success( 'Modification Faite avec Success');
 
-      this.router.navigate(['/clients']);
+      this.router.navigate(['/userss']);
     });
   }
-    
+
+
+
+
+  
 }

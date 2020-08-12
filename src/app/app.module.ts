@@ -22,6 +22,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MenuComponent } from './menu/menu.component';
+import { ListUserComponent } from './user/list-user/list-user.component';
+import { LoginComponent } from './user/login/login.component';
+import { RegisterComponent } from './user/register/register.component';
 
 
 
@@ -29,8 +33,16 @@ const MATERIAL_MODULES = [MatToolbarModule,
   MatIconModule
 ];
 const appRoutes : Routes = [
+  {path: 'menu', component: MenuComponent},
   {path: 'categories', component: ListCategorieComponent},
   {path: 'categorie', component: AddCategorieComponent},
+  {path: 'souscategories', component: ListScategorieComponent},
+  {path: 'ajoutscategorie', component: AddScategorieComponent},
+  {path: 'client', component: AddClientComponent},
+  {path: 'clients', component: ListClientComponent},
+  {path: 'article', component: AddArticleComponent},
+  {path: 'articles', component: ListArticleComponent},
+  {path: 'register', component: RegisterComponent},
 ];
 @NgModule({
   declarations: [
@@ -42,7 +54,11 @@ const appRoutes : Routes = [
     AddScategorieComponent,
     ListScategorieComponent,
     AddArticleComponent,
-    ListArticleComponent
+    ListArticleComponent,
+    MenuComponent,
+    ListUserComponent,
+    LoginComponent,
+    RegisterComponent
     
   ],
   imports: [
