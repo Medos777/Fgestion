@@ -15,16 +15,16 @@ export class UserService {
   
   private baseUrl = '/api/users';
   private baseUrl1 = '/api/users/5';
-  islogin = false;
+  isemail = false;
   admin = false;
   suser = false;
   choixmenu : string  = 'A';
   listData : User[];
   public dataForm:  FormGroup; 
   constructor(private http: HttpClient,private datePipe: DatePipe) { }
-  login(login: String): Observable<Object> {
+  login(email: String): Observable<Object> {
     
-     return this.http.get(`${this.baseUrl1}/${login}`);
+     return this.http.get(`${this.baseUrl1}/${email}`);
    }  
  
   getData(id: number): Observable<Object> {

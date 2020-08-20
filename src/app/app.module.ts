@@ -26,6 +26,10 @@ import { MenuComponent } from './menu/menu.component';
 import { ListUserComponent } from './user/list-user/list-user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
+import { AddCommComponent } from './comms/add-comms/add-comms.component';
+import { AddLcommsComponent } from './comms/add-lcomms/add-lcomms.component';
+import { ListCommsComponent } from './comms/list-comms/list-comms.component';
+import { ListLcommsComponent } from './comms/list-lcomms/list-lcomms.component';
 
 
 
@@ -33,16 +37,22 @@ const MATERIAL_MODULES = [MatToolbarModule,
   MatIconModule
 ];
 const appRoutes : Routes = [
-  {path: 'menu', component: MenuComponent},
-  {path: 'categories', component: ListCategorieComponent},
-  {path: 'categorie', component: AddCategorieComponent},
-  {path: 'souscategories', component: ListScategorieComponent},
-  {path: 'ajoutscategorie', component: AddScategorieComponent},
+  {path: '', component:LoginComponent},
+  {path: '1', component:MenuComponent,children : [
+  {path: 'clients', component: ListClientComponent},
   {path: 'client', component: AddClientComponent},
   {path: 'clients', component: ListClientComponent},
-  {path: 'article', component: AddArticleComponent},
-  {path: 'articles', component: ListArticleComponent},
+  {path: 'categories', component: ListCategorieComponent},
+  {path: 'categorie', component: AddCategorieComponent},
+  {path: 'scategories', component: ListScategorieComponent},
+  {path: 'scategorie', component: AddScategorieComponent},
+  {path: 'larticle', component: ListArticleComponent},
+  {path: 'article', component: AddArticleComponent},]},
   {path: 'register', component: RegisterComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'registerp', component: RegisterComponent},
+  {path: 'loginp', component: LoginComponent},
+  {path: 'users', component: ListUserComponent},
 ];
 @NgModule({
   declarations: [
@@ -58,7 +68,11 @@ const appRoutes : Routes = [
     MenuComponent,
     ListUserComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AddCommsComponent,
+    AddLcommsComponent,
+    ListCommsComponent,
+    ListLcommsComponent
     
   ],
   imports: [
