@@ -3,10 +3,11 @@ export class Commande {
     id :number;
     annee : number;
     numero : number;
-    code_client : number;
-    lib_client : String;
     date_comm : any;
+    code_client : number;
     libelle : String;
+    lib_client : String;
+    avance : number;
     totht : number;
     tottva : number;
     totttc : number;

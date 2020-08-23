@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA,MatDialogRef } from '@angular/material/dialog';
 import { ClientService} from '../../service/client.service';
-import { DirectionService} from '../../service/direction.service';
-import { CompteurService} from '../../service/compteur.service';
 import { Client} from '../../model/client';
-import { Compteur} from '../../model/compteur';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { NgForm } from '@angular/forms';
@@ -19,6 +16,8 @@ import { Article} from '../../model/article';
 import { Lcommande} from '../../model/lcommande';
 import { formatDate } from '@angular/common';
 import '@angular/localize/init';
+import { Lcommser } from 'src/app/model/lcommser';
+import { CommserService } from 'src/app/service/commser.service';
 @Component({
   selector: 'app-add-comm',
   templateUrl: './add-comm.component.html',
@@ -26,98 +25,79 @@ import '@angular/localize/init';
 })
 export class AddCommComponent implements OnInit {
   ClientList: Client[];
-  
+    
   isValid:boolean = true;
   articleService: any;
-  Date;
+  minDate ;
+  Wdate;
+  numcomm :number;
   compteur : any={};
   client   : any= {};
   annee  = 0;
-  constructor(public service:CommandeService,
-    public compteurservice:CompteurService,
-    public lcommservice:LcommandeService,
+  constructor(public service:CommserService,
     private dialog:MatDialog,public fb: FormBuilder,
     public clientService :ClientService,
     private toastr :ToastrService,
     private router :Router,
     private currentRoute: ActivatedRoute,
     private datePipe : DatePipe) { }
-    get f() { return this.service.formData.controls }
-   
+    get f() { return this.service.formData.controls; }
+
 ngOnInit() {
-
-   if (this.service.choixmenu == "A"){
-    this.InfoForm();
-    this.service.list = [];
-    this.Date = this.transformDate(new Date(Date.now()));
-    this.annee = (this.Date).toString().substring(0,4);
-    this.f['annee'].setValue(this.annee);
-    this.onSelectCompteur(this.annee);
-    }
-      else
-    {
-    //this.service.getData(this.service.formData.value.id).subscribe(res=> {
-   // this.service.formData =this.fb.group(Object.assign({},res));
-   // });
-    this.lcommservice.getAll(this.service.formData.value.numero).subscribe(
-     response =>{this.service.list = response}
+   this.minDate = this.transformDate(new Date());
+   this.annee = parseInt(localStorage.getItem('annee'));
+   this.InfoForm();
+   this.f['annee'].setValue(2020);
+   this.Wdate = this.transformDate(new Date());
+this.service.list = [];
+   //let id =this.currentRoute.snapshot.paramMap.get('id');
+  //  if (this.service.formData.value.id == null){
+    
+     
+      this.clientService.getAll().subscribe(
+      response =>{this.ClientList = response;}
      );
-     this.f['date_comm'].setValue(this.service.formData.value.date_comm);
-    }
-
-this.clientService.getAll().subscribe(
-  response =>{this.ClientList = response;}
- );
+  // }
   }
 
 
-  
 
-
-onSelectCompteur(id: number)
- {
-  this.compteurservice.getData(id).subscribe(
-    response =>{
-      this.compteur = response;
-      this.f['numero'].setValue(20200000 + this.compteur.numcomm);
-      }
-   );  
- } 
    
     
 InfoForm() {
+ 
     this.service.formData = this.fb.group({
       id :null,
       annee : 0,
       numero : 0,
       date_comm : '',
       code_client : 0,
-      lib_client : '',
       libelle : '',
+      lib_client : '',
+      avance : 0,
       totht : 0,
       tottva : 0,
       totttc : 0,
-      lcomms :[],
+      lcommServices :[],
       });
     } 
   
-resetForm() {
+ResetForm() {
       this.service.formData.reset();
   }
-
-AddData(lcommandeIndex,Id){  
+AddData(Index,Id){  
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
     dialogConfig.width="50%";
-    dialogConfig.data={lcommandeIndex,Id};
-    this.dialog.open(AddLcommandeComponent, dialogConfig).afterClosed().subscribe(b10=>{
+    dialogConfig.data={Index,Id};
+    this.dialog.open(AddCommComponent, dialogConfig).afterClosed().subscribe(b10=>{
       this.calcul();
     });
   }
 
   
-onDelete(item : Lcommande,Id:number,i:number){
+onDelete(item : Lcommser,Id:number,i:number){
     if(Id != null)
     this.service.formData.value.id+=Id ;
    this.service.list.splice(i,1);
@@ -148,11 +128,12 @@ validateForm(){
    }
 
 onSubmit(){
-    this.f['lcomms'].setValue(this.service.list);
+  
+   this.f['lcommServices'].setValue(this.service.list);
       this.service.saveOrUpdate(this.service.formData.value).
       subscribe( data => {
         this.toastr.success( 'Validation Faite avec Success'); 
-        this.router.navigate(['/lcomm']);
+        this.router.navigate(['/lcomms']);
       });
    }
   
@@ -163,12 +144,10 @@ OnSelectClient(ctrl)
    {
       if(ctrl.selectedIndex == 0){
        this.f['lib_client'].setValue('');
-       this.f['code_client'].setValue('');
       }
       else{
          this.f['lib_client'].setValue(this.ClientList[ctrl.selectedIndex - 1].libelle);
          this.f['code_client'].setValue(this.ClientList[ctrl.selectedIndex - 1].code);
       }
     }
-    
 }

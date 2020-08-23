@@ -26,10 +26,9 @@ import { MenuComponent } from './menu/menu.component';
 import { ListUserComponent } from './user/list-user/list-user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
-import { AddCommComponent } from './comms/add-comms/add-comms.component';
-import { AddLcommsComponent } from './comms/add-lcomms/add-lcomms.component';
-import { ListCommsComponent } from './comms/list-comms/list-comms.component';
-import { ListLcommsComponent } from './comms/list-lcomms/list-lcomms.component';
+import { AddCommComponent } from './commande/add-comm/add-comm.component';
+import { AdLdommComponent } from './lcomm/ad-ldomm/ad-ldomm.component';
+import { ListCommComponent } from './commande/list-comm/list-comm.component';
 
 
 
@@ -37,8 +36,7 @@ const MATERIAL_MODULES = [MatToolbarModule,
   MatIconModule
 ];
 const appRoutes : Routes = [
-  {path: '', component:LoginComponent},
-  {path: '1', component:MenuComponent,children : [
+  {path: '', component:MenuComponent,children : [
   {path: 'clients', component: ListClientComponent},
   {path: 'client', component: AddClientComponent},
   {path: 'clients', component: ListClientComponent},
@@ -53,6 +51,8 @@ const appRoutes : Routes = [
   {path: 'registerp', component: RegisterComponent},
   {path: 'loginp', component: LoginComponent},
   {path: 'users', component: ListUserComponent},
+  {path: 'commande', component: AddCommComponent},
+  {path: 'lcomm', component: ListCommComponent},
 ];
 @NgModule({
   declarations: [
@@ -69,10 +69,10 @@ const appRoutes : Routes = [
     ListUserComponent,
     LoginComponent,
     RegisterComponent,
-    AddCommsComponent,
-    AddLcommsComponent,
-    ListCommsComponent,
-    ListLcommsComponent
+    AdLdommComponent,
+    AddCommComponent,
+    AdLdommComponent,
+    ListCommComponent
     
   ],
   imports: [
